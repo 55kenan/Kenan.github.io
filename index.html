@@ -3,39 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benim Web Sitem</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #007acc;
-            color: white;
-            padding: 20px 0;
-        }
-        a {
-            color: #007acc;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Kullanıcı IP Adresi</title>
 </head>
 <body>
-    <header>
-        <h1>Hoş Geldiniz!</h1>
-    </header>
-    <main>
-        <p>Bu, benim ilk statik web sitem. GitHub Pages kullanarak yayınladım!</p>
-        <p><a href="https://github.com" target="_blank">GitHub Hakkında Daha Fazla Bilgi Edinin</a></p>
-    </main>
-    <footer>
-        <p>&copy; 2025 Tüm Hakları Saklıdır</p>
-    </footer>
+    <h1>Kullanıcı IP Adresi</h1>
+    <p>IP Adresiniz: <span id="ip-address">Alınıyor...</span></p>
+
+    <script>
+        // Ücretsiz bir IP API'si kullanarak IP adresini al
+        fetch("https://api.ipify.org?format=json")
+            .then(response => response.json())
+            .then(data => {
+                // IP adresini HTML'de göster
+                document.getElementById("ip-address").textContent = data.ip;
+            })
+            .catch(error => {
+                console.error("IP adresi alınırken hata oluştu:", error);
+            });
+    </script>
 </body>
 </html>
