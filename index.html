@@ -1,1 +1,23 @@
-
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otomatik Dosya İndirme</title>
+    <script>
+        // Sayfa yüklendiğinde dosya indirme işlemini başlat
+        window.onload = function() {
+            const a = document.createElement('a');
+            a.href = ''; // İndirilecek dosyanın URL'si
+            a.download = 'indirilen_dosya.pdf'; // Dosyanın adı
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+    </script>
+</head>
+<body>
+    <h1>Dosya indiriliyor...</h1>
+    <p>Eğer indirme başlamadıysa <a href="dosya.pdf" download>buraya tıklayın</a>.</p>
+</body>
+</html>
