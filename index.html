@@ -3,21 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Otomatik Dosya İndirme</title>
-    <script>
-        // Sayfa yüklendiğinde dosya indirme işlemini başlat
-        window.onload = function() {
-            const a = document.createElement('a');
-            a.href = 'https://github.com/55kenan/Denem/releases/download/Aa/kenancelik.zip'; // İndirilecek dosyanın URL'si
-            a.download = 'kenancelik.zip'; // Dosyanın adı
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        };
-    </script>
+    <title>Basit URL Kısaltıcı</title>
 </head>
 <body>
-    <h1>Dosya indiriliyor...</h1>
-    <p>Eğer indirme başlamadıysa <a href="dosya.pdf" download>buraya tıklayın</a>.</p>
+    <h1>URL Kısaltıcı</h1>
+    <form id="url-form">
+        <input type="text" id="original-url" placeholder="URL girin" required>
+        <button type="submit">Kısalt</button>
+    </form>
+    <p id="result"></p>
+
+    <h2>Yönlendirme Listesi</h2>
+    <ul id="url-list"></ul>
+
+    <script>
+        const urls = {}; // Kısa ve uzun URL'leri saklamak için bir nesne
+        const form = document.getElementById('url-form');
+        const result = document.getElementById('result');
+        const urlList = document.getElementById('url-list');
+        let urlCounter = 1; // İlk kısa URL için numara
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const originalUrl = document.getElementById('original-url').value;
+
+            const shortCode = urlCounter++; // Her yeni kısaltma için artan numara
+
+            urls[shortCode] = originalUrl;
+
+            result.innerHTML = `Kısa URL: <a href="?redirect=${shortCode}" target="_blank">${window.location.href}?redirect=${shortCode}</a>`;
+
+            // Listeye ekle
+            const li = document.createElement('li');
+            li.textContent = `${shortCode} → ${originalUrl}`;
+            urlList.appendChild(li);
+        });
+
+        // Yönlendirme işlemi
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('redirect')) {
+            const shortCode = parseInt(params.get('redirect'));
+            if (urls[shortCode]) {
+                window.location.href = urls[shortCode];
+            } else {
+                alert('Bu kısa kod geçerli değil!');
+            }
+        }
+    </script>
 </body>
 </html>
