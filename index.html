@@ -3,103 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix MP3 Oynatıcı</title>
+    <title>Rastgele Şekil Çizimi</title>
     <style>
-        /* Temel stiller */
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-            color: white;
+            background-color: #f0f0f0;
         }
-
-        /* Matrix arka plan */
         canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* MP3 oynatıcı kutusu */
-        .player {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
-        }
-
-        .player h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #00ff00;
-        }
-
-        audio {
-            width: 100%;
-            border: none;
-            outline: none;
+            border: 1px solid #000;
         }
     </style>
 </head>
 <body>
-    <canvas id="matrix"></canvas>
-    <div class="player">
-        <h1>Matrix MP3 Oynatıcı</h1>
-        <audio controls>
-            <source src="https://github.com/55kenan/Kenan.github.io/releases/download/publish/Norm-Ender-Ciktik-Yine-Yollara.mp3" type="audio/mpeg">
-            Tarayıcınız ses dosyalarını desteklemiyor.
-        </audio>
-    </div>
-
+    <canvas id="myCanvas" width="400" height="400"></canvas>
     <script>
-        const canvas = document.getElementById("matrix");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        function drawRandomShape() {
+            // Rastgele renk
+            const color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+            ctx.fillStyle = color;
 
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
+            // Şekli rastgele seç
+            const shape = Math.floor(Math.random() * 3); // 0, 1, 2
 
-        const drops = Array(Math.floor(columns)).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "#00ff00";
-            ctx.font = `${fontSize}px monospace`;
-
-            drops.forEach((y, x) => {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, x * fontSize, y * fontSize);
-
-                if (y * fontSize > canvas.height || Math.random() > 0.95) {
-                    drops[x] = 0;
-                }
-
-                drops[x]++;
-            });
-
-            requestAnimationFrame(drawMatrix);
+            if (shape === 0) {
+                // Kare
+                const x = Math.random() * 300;
+                const y = Math.random() * 300;
+                const size = Math.random() * 100 + 20;
+                ctx.fillRect(x, y, size, size);
+            } else if (shape === 1) {
+                // Daire
+                const x = Math.random() * 300 + 50;
+                const y = Math.random() * 300 + 50;
+                const radius = Math.random() * 50 + 20;
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // Üçgen
+                const x1 = Math.random() * 400;
+                const y1 = Math.random() * 400;
+                const x2 = Math.random() * 400;
+                const y2 = Math.random() * 400;
+                const x3 = Math.random() * 400;
+                const y3 = Math.random() * 400;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineTo(x3, y3);
+                ctx.closePath();
+                ctx.fill();
+            }
         }
 
-        drawMatrix();
-
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        drawRandomShape();
     </script>
 </body>
 </html>
