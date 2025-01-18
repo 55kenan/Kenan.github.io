@@ -1,87 +1,29 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grafik Çizme</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: #f4f4f9;
-    }
-
-    .container {
-      text-align: center;
-    }
-
-    canvas {
-      width: 80%;
-      height: 400px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #5b8bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn:hover {
-      background-color: #4a7fe6;
-    }
-  </style>
-  <!-- Chart.js Kütüphanesini Dahil Et -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to ASCII</title>
+    <style>
+        #dropZone {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Dinamik Grafik Çizme</h1>
-    <canvas id="myChart"></canvas>
-    <button class="btn" onclick="updateChart()">Veriyi Güncelle</button>
-  </div>
+    <h1>Resmi ASCII'ye Dönüştür</h1>
+    <div id="dropZone">Dosyayı buraya sürükleyin veya aşağıdan seçin</div>
+    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+    <button id="selectFileButton">Dosya Seç</button>
+    <pre id="asciiOutput"></pre>
 
-  <script>
-    // İlk grafiği oluşturma
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-      type: 'line', // Grafik türü
-      data: {
-        labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs'], // X ekseni
-        datasets: [{
-          label: 'Aylık Satış',
-          data: [12, 19, 3, 5, 2], // Y ekseni verisi
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderWidth: 1,
-          tension: 0.4 // Çizginin eğimi
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true // Y ekseni sıfırdan başlasın
-          }
-        }
-      }
-    });
-
-    // Grafiği güncelleme fonksiyonu
-    function updateChart() {
-      myChart.data.datasets[0].data = [5, 10, 15, 20, 25]; // Yeni veri
-      myChart.update(); // Grafiği güncelle
-    }
-  </script>
+    <script src="ascii.js"></script>
 </body>
 </html>
