@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #282c34;
+    color: white;
+}
+
+#asciiOutput {
+    white-space: pre;
+    font-family: monospace;
+    line-height: 1.2;
+    margin-top: 20px;
+}
+
+.dragon {
+    width: 100px;
+    height: 100px;
+    background: url('https://example.com/dragon.png') no-repeat center center;
+    background-size: contain;
+    animation: fly 5s infinite;
+}
+
+@keyframes fly {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
