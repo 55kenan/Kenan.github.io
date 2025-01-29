@@ -26,7 +26,7 @@ document.getElementById('convert').addEventListener('click', function() {
 });
 
 function convertToASCII(imageData) {
-    const chars = '@%#*+=-:. '; // ASCII karakter seti
+    const chars = '!'^'^+%&/())=?_QXTIIOKT '; // ASCII karakter seti
     const width = imageData.width;
     const height = imageData.height;
     let ascii = '';
