@@ -3,16 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII Resim Dönüştürücü</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Resim Metadata</title>
 </head>
 <body>
-    <h1>ASCII Resim Dönüştürücü</h1>
-    <input type="file" id="upload" accept="image/*">
-    <button id="convert">Dönüştür</button>
-    <pre id="asciiOutput"></pre>
-    <div class="dragon"></div>
+    <input type="file" id="fileInput" accept="image/*">
+    <button id="downloadBtn">Detayları İndir</button>
 
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Lütfen bir resim dosyası yükleyin.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const metadata = {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        width: img.width,
+                        height: img.height,
+                        lastModified: file.lastModified
+                    };
+
+                    const metadataString = JSON.stringify(metadata, null, 2);
+                    downloadFile('metadata.txt', metadataString);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>
