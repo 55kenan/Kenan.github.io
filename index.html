@@ -1,29 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to ASCII</title>
-    <style>
-        #dropZone {
-            width: 300px;
-            height: 200px;
-            border: 2px dashed #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-    </style>
+    <title>ASCII Resim Dönüştürücü</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Resmi ASCII'ye Dönüştür</h1>
-    <div id="dropZone">Dosyayı buraya sürükleyin veya aşağıdan seçin</div>
-    <input type="file" id="fileInput" accept="image/*" style="display: none;">
-    <button id="selectFileButton">Dosya Seç</button>
+    <h1>ASCII Resim Dönüştürücü</h1>
+    <input type="file" id="upload" accept="image/*">
+    <button id="convert">Dönüştür</button>
     <pre id="asciiOutput"></pre>
+    <div class="dragon"></div>
 
-    <script src="ascii.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
