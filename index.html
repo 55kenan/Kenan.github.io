@@ -3,52 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resim Metadata</title>
+    <title>Kendi Resmini Yükle ve Renkli Metin Oluştur</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            max-width: 80%;
+            border: 5px solid #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: none; /* Başlangıçta resmi gizle */
+        }
+        .colorful-text {
+            font-size: 2em;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <input type="file" id="fileInput" accept="image/*">
-    <button id="downloadBtn">Detayları İndir</button>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <img id="myImage" alt="Yüklenen Resim">
+    <div class="colorful-text" id="colorfulText"></div>
 
     <script>
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
+        // Renkli metin oluşturma
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+        const colorfulTextElement = document.getElementById("colorfulText");
 
-            if (!file) {
-                alert('Lütfen bir resim dosyası yükleyin.');
-                return;
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
             }
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = function() {
-                    const metadata = {
-                        name: file.name,
-                        size: file.size,
-                        type: file.type,
-                        width: img.width,
-                        height: img.height,
-                        lastModified: file.lastModified
-                    };
-
-                    const metadataString = JSON.stringify(metadata, null, 2);
-                    downloadFile('metadata.txt', metadataString);
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-
-        function downloadFile(filename, content) {
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            return color;
         }
+
+        function generateColorfulText(length) {
+            let text = '';
+            for (let i = 0; i < length; i++) {
+                const randomChar = characters.charAt(Math.floor(Math.random() * characters.length));
+                const span = `<span style="color: ${getRandomColor()};">${randomChar}</span>`;
+                text += span;
+            }
+            colorfulTextElement.innerHTML = text;
+        }
+
+        // Resim yükleme işlemi
+        const imageInput = document.getElementById("imageInput");
+        const myImage = document.getElementById("myImage");
+
+        imageInput.addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    myImage.src = e.target.result; // Yüklenen resmi göster
+                    myImage.style.display = "block"; // Resmi görünür yap
+                    generateColorfulText(50); // Renkli metin oluştur
+                }
+                reader.readAsDataURL(file); // Resmi oku
+            }
+        });
     </script>
+
 </body>
 </html>
